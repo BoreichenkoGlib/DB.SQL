@@ -2,20 +2,20 @@ create login login1 with password = 'boreichenko-glib'
 use kontrolna_1
 create user login1 for login login1
 
---роли БД
+--СЂРѕР»Рё Р‘Р”
 alter role db_backupoperator add member login1
 exec sp_helprolemember
 
---новая роль БД
+--РЅРѕРІР°СЏ СЂРѕР»СЊ Р‘Р”
 create role role1 authorization db_ddladmin
 alter role db_ddladmin add member login1
 alter role role1 add member login1
 alter role db_ddladmin drop member login1
 
---разрешения для роли
+--СЂР°Р·СЂРµС€РµРЅРёСЏ РґР»СЏ СЂРѕР»Рё
 grant select to role1
 
---разрешения для пользователя
+--СЂР°Р·СЂРµС€РµРЅРёСЏ РґР»СЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 grant select to login1
 grant select to login1
 revoke insert to login1
@@ -41,9 +41,9 @@ LEFT JOIN sys.database_principals p ON dbp.grantee_principal_id = p.principal_id
 ORDER BY so.name, dbp.permission_name;
 
 
---Роли на сервере:
+--Р РѕР»Рё РЅР° СЃРµСЂРІРµСЂРµ:
 exec sp_helpsrvrolemember
---Роли и в БД
+--Р РѕР»Рё Рё РІ Р‘Р”
 exec sp_helpsrvrolemember
 
 
@@ -52,16 +52,16 @@ go
 exec sp_addlogin @loginame = 'glib3_login', @passwd='2'
 exec sp_adduser 'glib3_login', 'glib3_loginu'
 grant select ON dogovoru to glib3_loginu
---создание роли
+--СЃРѕР·РґР°РЅРёРµ СЂРѕР»Рё
 exec sp_addrole df
 grant create table to df
---Проверка
+--РџСЂРѕРІРµСЂРєР°
 exec sp_helpuser
 
 BACKUP DATABASE AdventureWorks
-TO DISK = ‘C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\Backup\boreichenko.bak’WITH INIT, NAME = ‘AdventureWorks Full Db backup’,
-DESCRIPTION = ‘AdventureWorks Full Database Backup
+TO DISK = вЂC:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\Backup\boreichenko.bakвЂ™WITH INIT, NAME = вЂAdventureWorks Full Db backupвЂ™,
+DESCRIPTION = вЂAdventureWorks Full Database Backup
 
 RESTORE DATABASE AdventureWorks
-FROM DISK = ‘C:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\Backup\boreichenko.bak’
+FROM DISK = вЂC:\Program Files\Microsoft SQL Server\MSSQL14.SQLEXPRESS\MSSQL\Backup\boreichenko.bakвЂ™
 WITH RECOVERY, REPLACE

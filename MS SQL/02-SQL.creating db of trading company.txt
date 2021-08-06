@@ -16,10 +16,10 @@ select sum(zakaz_tovar.Kilkist)
 where
 	date_rozm between '2017-07-01' and '2017-07-31'
 	and(
-	tovar.Nazva='Молоко'
-	or tovar.Nazva = 'Кефир'
-	or tovar.Nazva = 'Творог'
-	or tovar.Nazva = 'Сметана')
+	tovar.Nazva='РњРѕР»РѕРєРѕ'
+	or tovar.Nazva = 'РљРµС„РёСЂ'
+	or tovar.Nazva = 'РўРІРѕСЂРѕРі'
+	or tovar.Nazva = 'РЎРјРµС‚Р°РЅР°')
 group by tovar.Nazva
 
 select NameOfSuppliers, NazvaTovar, sum(suma) from(select postachalnik.Nazva as NameOfSuppliers
@@ -46,7 +46,7 @@ select postachalnik.Nazva,
 		sum(zakaz_tovar.Kilkist)
 from postachalnik join tovar on tovar.id_postav=postachalnik.id_postach
 	join zakaz_tovar on zakaz_tovar.id_tovar = tovar.id_tovar
-where tovar.Nazva = 'Молоко'
+where tovar.Nazva = 'РњРѕР»РѕРєРѕ'
 group by postachalnik.Nazva
 
 select tovar.Nazva, 
@@ -61,7 +61,7 @@ select klient.Nazva, sum(zakaz_tovar.Kilkist * tovar.Price
 from klient join zakaz on zakaz.id_klient=klient.id_klient
 			join zakaz_tovar on zakaz_tovar.id_zakaz = zakaz.id_zakaz
 			join tovar on tovar.id_tovar = zakaz_tovar.id_tovar
-where klient.City='Житомир'
+where klient.City='Р–РёС‚РѕРјРёСЂ'
 group by klient.Nazva
 
 select klient.Nazva, sum(zakaz_tovar.Kilkist * tovar.Price
@@ -70,7 +70,7 @@ select klient.Nazva, sum(zakaz_tovar.Kilkist * tovar.Price
 from klient join zakaz on zakaz.id_klient=klient.id_klient
 			join zakaz_tovar on zakaz_tovar.id_zakaz = zakaz.id_zakaz
 			join tovar on tovar.id_tovar = zakaz_tovar.id_tovar
-where klient.City='Житомир'
+where klient.City='Р–РёС‚РѕРјРёСЂ'
 group by klient.Nazva,date_naznach
 
 select postachalnik.Nazva, cast(avg(tovar.Price)as decimal(6,2))

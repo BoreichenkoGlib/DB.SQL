@@ -2,7 +2,7 @@ create database store_boreichenko
 
 use store_boreichenko
 go
---створюю таблицю товар
+--СЃС‚РІРѕСЂСЋСЋ С‚Р°Р±Р»РёС†СЋ С‚РѕРІР°СЂ
 create table [goods](
 id_goods int identity(1,1) not null,
 primary key(id_goods),
@@ -10,7 +10,7 @@ name_goods varchar(50) not null,
 code_by_goods int not null,
 chenged_material varchar(50) not null
 )
---створюю таблицю поставщик
+--СЃС‚РІРѕСЂСЋСЋ С‚Р°Р±Р»РёС†СЋ РїРѕСЃС‚Р°РІС‰РёРє
 create table [provider](
 id_provider int identity(1,1) not null,
 primary key (id_provider),
@@ -19,7 +19,7 @@ adress_provider varchar(50) not null,
 phone_number decimal(10,0) not null,
 AccountNumber decimal(10,0) not null
 )
---створюю таблицю поставка
+--СЃС‚РІРѕСЂСЋСЋ С‚Р°Р±Р»РёС†СЋ РїРѕСЃС‚Р°РІРєР°
 create table [delivery](
 id_delivery int identity(1,1) not null,
 id_goods int not null,
@@ -30,38 +30,38 @@ prices decimal(10,2) not null
 foreign key (id_goods) references goods (id_goods),
 foreign key (id_provider) references provider (id_provider)
 )
---ввожу тестові записи в таблицю товари
+--РІРІРѕР¶Сѓ С‚РµСЃС‚РѕРІС– Р·Р°РїРёСЃРё РІ С‚Р°Р±Р»РёС†СЋ С‚РѕРІР°СЂРё
 insert into [goods] values 
-('Coca-Cola',50,'л'),
-('Roshen',15,'кг'),
-('Mivina',2145,'кг');
+('Coca-Cola',50,'Р»'),
+('Roshen',15,'РєРі'),
+('Mivina',2145,'РєРі');
 
---ввожу тестові записи в таблицю поставщик
+--РІРІРѕР¶Сѓ С‚РµСЃС‚РѕРІС– Р·Р°РїРёСЃРё РІ С‚Р°Р±Р»РёС†СЋ РїРѕСЃС‚Р°РІС‰РёРє
 insert into [provider] values
 ('Fora','Hlibna 21',0638459789,001),
 ('EKO','Kievska 24',0638459789,001),
 ('Kwara','Chudnivska',0638459789,001),
 ('Dastore','Olzicha 85/a',0984575569,002);
 
---ввожу тестові записи в таблию поставка
+--РІРІРѕР¶Сѓ С‚РµСЃС‚РѕРІС– Р·Р°РїРёСЃРё РІ С‚Р°Р±Р»РёСЋ РїРѕСЃС‚Р°РІРєР°
 insert into [delivery] values
 (3,1,10,'2020-12-14',24.99),
 (1,1,20,'2020-12-14',89.99),
 (2,1,15,'2020/12/14',14.99),
 (3,2,40,'2020/12/14',17.99);
 
---створюю кластерний і некластерний індекси
+--СЃС‚РІРѕСЂСЋСЋ РєР»Р°СЃС‚РµСЂРЅРёР№ С– РЅРµРєР»Р°СЃС‚РµСЂРЅРёР№ С–РЅРґРµРєСЃРё
 create clustered index ClusInd on delivery(id_delivery)
 create nonclustered index NonClusInd1 on delivery(id_goods)
 
---вивожу індекси
+--РІРёРІРѕР¶Сѓ С–РЅРґРµРєСЃРё
 select * from INFORMATION_SCHEMA.TABLE_CONSTRAINTS
 
---імпортувати список товарів
+--С–РјРїРѕСЂС‚СѓРІР°С‚Рё СЃРїРёСЃРѕРє С‚РѕРІР°СЂС–РІ
 use store_boreichenko
 select * from goods
 
---створюю 3 користувачів
+--СЃС‚РІРѕСЂСЋСЋ 3 РєРѕСЂРёСЃС‚СѓРІР°С‡С–РІ
 create login head with password = '1111'
 create login manager with password = '111'
 create login storekeeper with password = '11'
@@ -71,7 +71,7 @@ create user head for login head
 create user manager for login manager
 create user storekeeper for login storekeeper
 
---ролі в БД
+--СЂРѕР»С– РІ Р‘Р”
 alter role db_backupoperator add member head
 exec sp_helprolemember
 alter role db_backupoperator add member manager
@@ -108,7 +108,7 @@ GO
 ALTER ROLE [db_owner] ADD MEMBER [head]
 GO
 
---новая роль БД
+--РЅРѕРІР°СЏ СЂРѕР»СЊ Р‘Р”
 create role head_role authorization db_ddladmin
 create role manager_role authorization db_ddladmin
 create role storekeeper_role authorization db_ddladmin
@@ -117,12 +117,12 @@ alter role db_ddladmin drop member head
 alter role db_ddladmin add member storekeeper
 alter role db_ddladmin drop member storekeeper
 
---разрешения для роли
+--СЂР°Р·СЂРµС€РµРЅРёСЏ РґР»СЏ СЂРѕР»Рё
 grant select to head_role
 grant select to manager_role
 grant select to storekeeper_role
 
---разрешения для пользователя
+--СЂР°Р·СЂРµС€РµРЅРёСЏ РґР»СЏ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
 grant select to head
 grant select to manager
 grant select to storekeeper
@@ -139,7 +139,7 @@ BACKUP LOG store_boreichenko
 TO DISK = 'D:\store_boreichenko_log.bak' WITH NOINIT, NAME = 'boreichenko Translog backup',
 DESCRIPTION = 'Store Transaction Log Backup', NOFORMAT
 
--- Відновлення Бази даних (за допомогою резервної копії)
+-- Р’С–РґРЅРѕРІР»РµРЅРЅСЏ Р‘Р°Р·Рё РґР°РЅРёС… (Р·Р° РґРѕРїРѕРјРѕРіРѕСЋ СЂРµР·РµСЂРІРЅРѕС— РєРѕРїС–С—)
 RESTORE DATABASE store_boreichenko
 FROM DISK = 'D:\store_boreichenko_full.bak' WITH RECOVERY, REPLACE
 

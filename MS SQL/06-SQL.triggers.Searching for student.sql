@@ -23,7 +23,7 @@ declare @room int = (select room_number from inserted)
 declare @count_st int = (select Count(*) from Card where room_number = @room and dormitory_number = @dorm)
 if @count_st > 4
 begin 
-rollback tran print 'Немає місць'
+rollback tran print 'РќРµРјР°С” РјС–СЃС†СЊ'
 end
 --3--
 select * from Student
@@ -35,7 +35,7 @@ as
 declare @d date = (select st_birthday from inserted)
 if year(@d) not between 1900 and 2020
 begin
-rollback tran print 'Помилка! Введіть коректну дату народження!'
+rollback tran print 'РџРѕРјРёР»РєР°! Р’РІРµРґС–С‚СЊ РєРѕСЂРµРєС‚РЅСѓ РґР°С‚Сѓ РЅР°СЂРѕРґР¶РµРЅРЅСЏ!'
 end
 
 insert into Student(st_number, st_name, st_birthday, st_parents)

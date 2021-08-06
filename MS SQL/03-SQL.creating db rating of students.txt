@@ -50,10 +50,10 @@ join dbo_groups on dbo_groups.K_navch_plan = Predmet_plan.K_navch_plan
 Group by Nazva
 
 delete FROM Reiting
-WHERE EXISTS (SELECT * FROM dbo_student WHERE Reiting.Kod_student = dbo_student.Kod_stud and dbo_student.Sname = 'Áàçåëþê');
+WHERE EXISTS (SELECT * FROM dbo_student WHERE Reiting.Kod_student = dbo_student.Kod_stud and dbo_student.Sname = 'Ð‘Ð°Ð·ÐµÐ»ÑŽÐº');
 
 delete FROM Predmet_plan
-WHERE EXISTS (SELECT * FROM predmet WHERE predmet.K_predmet = Predmet_plan.K_predmet and predmet.Nazva = 'Âèùà ìàòåìàòèêà');
+WHERE EXISTS (SELECT * FROM predmet WHERE predmet.K_predmet = Predmet_plan.K_predmet and predmet.Nazva = 'Ð’Ð¸Ñ‰Ð° Ð¼Ð°Ñ‚ÐµÐ¼Ð°Ñ‚Ð¸ÐºÐ°');
 
 update reiting 
 set Reiting *=1.15
@@ -62,11 +62,11 @@ update reiting
 set Reiting /=1.15
 
 	declare @predCount int;
-	set @predCount = (select count(K_predmet) from predmet where Nazva Like 'Ì%');
+	set @predCount = (select count(K_predmet) from predmet where Nazva Like 'Ðœ%');
 	declare @pred int;
 	while @predcount >0
 	begin
-	set @pred = (select K_predmet from predmet where Nazva Like 'Ì%' order by K_predmet  offset @predCount-1 rows fetch next 1 rows only)
+	set @pred = (select K_predmet from predmet where Nazva Like 'Ðœ%' order by K_predmet  offset @predCount-1 rows fetch next 1 rows only)
 	
 	insert into Predmet_plan( Predmet.K_predmet, K_navch_plan,Chas_all, Semestr, k_fk)
 	values(395, 13, 77, 2,2)

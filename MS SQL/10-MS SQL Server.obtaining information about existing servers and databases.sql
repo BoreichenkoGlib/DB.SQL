@@ -1,10 +1,10 @@
--- Имена сервера и экземпляра
+-- РРјРµРЅР° СЃРµСЂРІРµСЂР° Рё СЌРєР·РµРјРїР»СЏСЂР°
 Select @@SERVERNAME as [Server\Instance];
--- версия SQL Server
+-- РІРµСЂСЃРёСЏ SQL Server
 Select @@VERSION as SQLServerVersion;
--- экземпляр SQL Server
+-- СЌРєР·РµРјРїР»СЏСЂ SQL Server
 Select @@ServiceName AS ServiceInstance;
--- Текущая БД (БД, в контексте которой
+-- РўРµРєСѓС‰Р°СЏ Р‘Р” (Р‘Р”, РІ РєРѕРЅС‚РµРєСЃС‚Рµ РєРѕС‚РѕСЂРѕР№
 Select DB_NAME() AS CurrentDB_Name;
 
 SELECT @@Servername AS ServerName ,
@@ -30,7 +30,7 @@ ORDER BY Name;
 
 
 
--- В примере в WHERE U - таблицы
+-- Р’ РїСЂРёРјРµСЂРµ РІ WHERE U - С‚Р°Р±Р»РёС†С‹
 USE kontrolna_1;
 GO
 SELECT *
@@ -160,7 +160,7 @@ WHERE o.[Type] = 'P' -- Stored Procedures
 ORDER BY o.name
 
 
--- Функции
+-- Р¤СѓРЅРєС†РёРё
 SELECT @@Servername AS ServerName ,
 DB_NAME() AS DB_Name ,
 o.name AS 'Functions' ,
@@ -170,7 +170,7 @@ FROM sys.objects o
 WHERE o.Type = 'FN' -- Function
 ORDER BY o.NAME;
 
--- Триггеры
+-- РўСЂРёРіРіРµСЂС‹
 SELECT @@Servername AS ServerName ,
 DB_NAME() AS DBName ,
 parent.name AS TableName ,
@@ -221,8 +221,8 @@ ORDER BY DBName ,
 TableName ,
 SchemaName ,
 Ordinal_position;
--- Имена столбцов и количество повторов
--- Используется для поиска одноимённых столбцов с разными типами данных/длиной
+-- РРјРµРЅР° СЃС‚РѕР»Р±С†РѕРІ Рё РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРІС‚РѕСЂРѕРІ
+-- РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РїРѕРёСЃРєР° РѕРґРЅРѕРёРјС‘РЅРЅС‹С… СЃС‚РѕР»Р±С†РѕРІ СЃ СЂР°Р·РЅС‹РјРё С‚РёРїР°РјРё РґР°РЅРЅС‹С…/РґР»РёРЅРѕР№
 SELECT @@Servername AS Server ,
 DB_NAME() AS DBName ,
 Column_Name ,
@@ -240,7 +240,7 @@ Data_Type ,
 Numeric_Precision ,
 Numeric_Scale ,
 Character_Maximum_Length;
--- Информация по используемым типам данных
+-- РРЅС„РѕСЂРјР°С†РёСЏ РїРѕ РёСЃРїРѕР»СЊР·СѓРµРјС‹Рј С‚РёРїР°Рј РґР°РЅРЅС‹С…
 SELECT @@Servername AS ServerName ,
 DB_NAME() AS DBName ,
 Data_Type ,
@@ -261,7 +261,7 @@ Numeric_Precision ,
 Numeric_Scale ,
 Character_Maximum_Length
 -- Large object data types or Binary Large Objects(BLOBs)
--- Помните, что индексы по этим таблицам не могут быть перестроены в режиме "online"online"online"
+-- РџРѕРјРЅРёС‚Рµ, С‡С‚Рѕ РёРЅРґРµРєСЃС‹ РїРѕ СЌС‚РёРј С‚Р°Р±Р»РёС†Р°Рј РЅРµ РјРѕРіСѓС‚ Р±С‹С‚СЊ РїРµСЂРµСЃС‚СЂРѕРµРЅС‹ РІ СЂРµР¶РёРјРµ "online"online"online"
 SELECT @@Servername AS ServerName ,
 DB_NAME() AS DBName ,
 isc.Table_Name ,
@@ -300,7 +300,7 @@ ORDER BY parent.name ,
 o.NAME
 
 
--- Вычисляемые столбцы
+-- Р’С‹С‡РёСЃР»СЏРµРјС‹Рµ СЃС‚РѕР»Р±С†С‹
 SELECT @@Servername AS ServerName ,
 DB_NAME() AS DBName ,
 OBJECT_SCHEMA_NAME(object_id) AS SchemaName ,
@@ -357,7 +357,7 @@ WHERE o.[Type] = 'F' -- Foreign Keys
 ORDER BY parent.name ,
 o.name
 
---13.залежності
+--13.Р·Р°Р»РµР¶РЅРѕСЃС‚С–
 EXEC sp_msdependencies NULL
 
 EXEC sp_msdependencies N'dogovoru',null, 1315327 

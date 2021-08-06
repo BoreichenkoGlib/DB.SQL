@@ -57,7 +57,7 @@ values
 
 
 
-create view maxStudentsTeacher as -- 2 ім'я викладача, який взяв групу з максимальною кількістю студентів(пізніше, я зрозумів, що умова трохи інакша)
+create view maxStudentsTeacher as -- 2 С–Рј'СЏ РІРёРєР»Р°РґР°С‡Р°, СЏРєРёР№ РІР·СЏРІ РіСЂСѓРїСѓ Р· РјР°РєСЃРёРјР°Р»СЊРЅРѕСЋ РєС–Р»СЊРєС–СЃС‚СЋ СЃС‚СѓРґРµРЅС‚С–РІ(РїС–Р·РЅС–С€Рµ, СЏ Р·СЂРѕР·СѓРјС–РІ, С‰Рѕ СѓРјРѕРІР° С‚СЂРѕС…Рё С–РЅР°РєС€Р°)
 select teacherName from term where CollectiveId=(
 select collectiveId from collective 
 ORDER BY studentsNum desc
@@ -78,11 +78,11 @@ ORDER BY studentsNum desc
 OFFSET 0 ROWS
 fetch next 1 rows only
 
-SELECT collectiveCod, count(*) as NumOfExams FROM dbo.term -- 1 просто кількість іспитів
+SELECT collectiveCod, count(*) as NumOfExams FROM dbo.term -- 1 РїСЂРѕСЃС‚Рѕ РєС–Р»СЊРєС–СЃС‚СЊ С–СЃРїРёС‚С–РІ
 	join collective on collective.CollectiveId = term.CollectiveId
 	Group by collectiveCod
 
-SELECT collectiveCod, count(*) as NumOfExams, sum(total_hours) as totalHours FROM dbo.term -- 1 кількість іспитів + годин по всіх предметах
+SELECT collectiveCod, count(*) as NumOfExams, sum(total_hours) as totalHours FROM dbo.term -- 1 РєС–Р»СЊРєС–СЃС‚СЊ С–СЃРїРёС‚С–РІ + РіРѕРґРёРЅ РїРѕ РІСЃС–С… РїСЂРµРґРјРµС‚Р°С…
 	join collective on collective.CollectiveId = term.CollectiveId
 	join discipline on discipline.disciplineId = term.disciplineId
 Group by collectiveCod
@@ -90,7 +90,7 @@ order by NumOfExams desc
 
 
 create view teacherWithMax as
-SELECT teacherName, sum(studentsNum) as AmountStudentAsAll FROM dbo.term  -- 2 ім'я викладача з кількістю студентів, які прийняв викладач за всю сесію
+SELECT teacherName, sum(studentsNum) as AmountStudentAsAll FROM dbo.term  -- 2 С–Рј'СЏ РІРёРєР»Р°РґР°С‡Р° Р· РєС–Р»СЊРєС–СЃС‚СЋ СЃС‚СѓРґРµРЅС‚С–РІ, СЏРєС– РїСЂРёР№РЅСЏРІ РІРёРєР»Р°РґР°С‡ Р·Р° РІСЃСЋ СЃРµСЃС–СЋ
 	join collective on collective.CollectiveId= term.CollectiveId 
 where controlType = 'exam'
 group by teacherName
@@ -101,14 +101,14 @@ fetch next 1 rows only
 
 select * from teacherWithMax
 
-create View numOf as  -- з цього ходить скільки предметів з напрямів
+create View numOf as  -- Р· С†СЊРѕРіРѕ С…РѕРґРёС‚СЊ СЃРєС–Р»СЊРєРё РїСЂРµРґРјРµС‚С–РІ Р· РЅР°РїСЂСЏРјС–РІ
 SELECT collectiveCod,category, count(*) as numOfSub FROM term
 	join collective on collective.CollectiveId = term.CollectiveId
 	join discipline on discipline.disciplineId = term.disciplineId
 where collectiveCod LIKE 'pi50'
 group by  collectiveCod,category
 
-with total as  -- розвязок відсотка на кожен напряму, для створення процедури, view треба буде замінити на весь код
+with total as  -- СЂРѕР·РІСЏР·РѕРє РІС–РґСЃРѕС‚РєР° РЅР° РєРѕР¶РµРЅ РЅР°РїСЂСЏРјСѓ, РґР»СЏ СЃС‚РІРѕСЂРµРЅРЅСЏ РїСЂРѕС†РµРґСѓСЂРё, view С‚СЂРµР±Р° Р±СѓРґРµ Р·Р°РјС–РЅРёС‚Рё РЅР° РІРµСЃСЊ РєРѕРґ
     ( select sum(numOfSub)as total from numOf)
 select numOf.category,
 CAST(numOf.numOfSub AS float) / CAST(total.total AS float) * 100 as proc
@@ -120,7 +120,7 @@ case when t.category is not null then CAST(t.numOfSub AS float) / CAST(count(*) 
 end as pros
 
 CREATE PROCEDURE GroupSubjectProc as
-with allQuery as ( --   3 view не вийшло замінити просто так, вирішив, зробити так, за групу беру 'pi50'
+with allQuery as ( --   3 view РЅРµ РІРёР№С€Р»Рѕ Р·Р°РјС–РЅРёС‚Рё РїСЂРѕСЃС‚Рѕ С‚Р°Рє, РІРёСЂС–С€РёРІ, Р·СЂРѕР±РёС‚Рё С‚Р°Рє, Р·Р° РіСЂСѓРїСѓ Р±РµСЂСѓ 'pi50'
 SELECT collectiveCod,category, count(*) as numOfSub FROM term
 	join collective on collective.CollectiveId = term.CollectiveId
 	join discipline on discipline.disciplineId = term.disciplineId
@@ -134,7 +134,7 @@ from allQuery, total
 
 exec GroupSubjectProc
 
-create proc CheckSameDateGroup( @groupName varchar(10), -- 4 Іспити в один день, на вході назва групи, виході- кількість в один день та дата
+create proc CheckSameDateGroup( @groupName varchar(10), -- 4 Р†СЃРїРёС‚Рё РІ РѕРґРёРЅ РґРµРЅСЊ, РЅР° РІС…РѕРґС– РЅР°Р·РІР° РіСЂСѓРїРё, РІРёС…РѕРґС–- РєС–Р»СЊРєС–СЃС‚СЊ РІ РѕРґРёРЅ РґРµРЅСЊ С‚Р° РґР°С‚Р°
 @foo varchar(3) output,
 @date varchar(12) output
 ) as
@@ -161,7 +161,7 @@ exec CheckSameDateGroup @groupName='ki4',
 	@foo=@examNum output,
 	@date=@examdate output
 
-CREATE TRIGGER delDisc ON discipline after Delete as -- тригер, якщо видаляється дисципліна, вона видаляється й в іспитах, табл. term
+CREATE TRIGGER delDisc ON discipline after Delete as -- С‚СЂРёРіРµСЂ, СЏРєС‰Рѕ РІРёРґР°Р»СЏС”С‚СЊСЃСЏ РґРёСЃС†РёРїР»С–РЅР°, РІРѕРЅР° РІРёРґР°Р»СЏС”С‚СЊСЃСЏ Р№ РІ С–СЃРїРёС‚Р°С…, С‚Р°Р±Р». term
 declare @disc as varchar(10)
 select @disc = disciplineId from deleted
 BEGIN 

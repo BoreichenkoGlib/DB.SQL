@@ -264,7 +264,7 @@ select * from proffesors
 insert into proff_copy
 values
 ('11', EncryptByKey(Key_GUID('sym_key_1'),convert(nvarchar(50), 'Efimenko Andriy Anatoliyovich')),'3','3')
-/*Розшифрування */ 
+/*Р РѕР·С€РёС„СЂСѓРІР°РЅРЅСЏ */ 
 SELECT Convert(nvarchar(50), DecryptByKey(prof_name))
 FROM proff_copy
 

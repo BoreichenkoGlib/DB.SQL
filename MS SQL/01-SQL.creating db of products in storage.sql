@@ -40,7 +40,7 @@
 -- [id_surovinu] int  ,
 
 
--- CONSTRAINT [PK_Видаткова накладна] PRIMARY KEY CLUSTERED ([id_vud_nakl] ASC),
+-- CONSTRAINT [PK_Р’РёРґР°С‚РєРѕРІР° РЅР°РєР»Р°РґРЅР°] PRIMARY KEY CLUSTERED ([id_vud_nakl] ASC),
 -- CONSTRAINT [FK_96] FOREIGN KEY ([id_surovinu])  REFERENCES [surovina]([id_surovinu])
 --);
 
@@ -56,7 +56,7 @@
 -- [id_surovinu] int ,
 
 
--- CONSTRAINT [PK_Постачальники] PRIMARY KEY CLUSTERED ([id_dogovoru] ASC),
+-- CONSTRAINT [PK_РџРѕСЃС‚Р°С‡Р°Р»СЊРЅРёРєРё] PRIMARY KEY CLUSTERED ([id_dogovoru] ASC),
 -- CONSTRAINT [FK_118] FOREIGN KEY ([id_surovinu])  REFERENCES [surovina]([id_surovinu]),
 -- CONSTRAINT [FK_45] FOREIGN KEY ([id_postach])  REFERENCES [postach]([id_postach])
 --);
@@ -74,7 +74,7 @@
 -- [id_surovinu]  int ,
 
 
--- CONSTRAINT [PK_Прибуткові накладні] PRIMARY KEY CLUSTERED ([id_prib_nakl] ASC),
+-- CONSTRAINT [PK_РџСЂРёР±СѓС‚РєРѕРІС– РЅР°РєР»Р°РґРЅС–] PRIMARY KEY CLUSTERED ([id_prib_nakl] ASC),
 -- CONSTRAINT [FK_115] FOREIGN KEY ([id_surovinu])  REFERENCES [surovina]([id_surovinu]),
 -- CONSTRAINT [FK_42] FOREIGN KEY ([id_postach])  REFERENCES [postach]([id_postach]),
 -- CONSTRAINT [FK_52] FOREIGN KEY ([id_dogovoru])  REFERENCES [dogovoru]([id_dogovoru])

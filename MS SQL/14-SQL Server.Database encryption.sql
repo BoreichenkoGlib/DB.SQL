@@ -31,23 +31,23 @@ SELECT DB_NAME(database_id), encryption_state, percent_complete FROM sys.dm_data
 --------------------------------------------------------------
 USE master
 go
--- Создаем главный ключ базы данных master
+-- РЎРѕР·РґР°РµРј РіР»Р°РІРЅС‹Р№ РєР»СЋС‡ Р±Р°Р·С‹ РґР°РЅРЅС‹С… master
 IF(not EXISTS(SELECT * FROM sys.symmetric_keys WHERE name = '##MS_DatabaseMasterKey##')) 
     CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'My$Strong$Password$123'
 go
--- Создаем сертификат, которым будем шифровать DEK
+-- РЎРѕР·РґР°РµРј СЃРµСЂС‚РёС„РёРєР°С‚, РєРѕС‚РѕСЂС‹Рј Р±СѓРґРµРј С€РёС„СЂРѕРІР°С‚СЊ DEK
 CREATE CERTIFICATE DEK_EncCert WITH SUBJECT = 'DEK Encryption Certificate'
 go 
--- Создаем базу данных, которую будем шифровать
+-- РЎРѕР·РґР°РµРј Р±Р°Р·Сѓ РґР°РЅРЅС‹С…, РєРѕС‚РѕСЂСѓСЋ Р±СѓРґРµРј С€РёС„СЂРѕРІР°С‚СЊ
 CREATE DATABASE MySecretDB
 go
--- И сразу делаем ее полную резервную копию (секретных данных здесь нет)
+-- Р СЃСЂР°Р·Сѓ РґРµР»Р°РµРј РµРµ РїРѕР»РЅСѓСЋ СЂРµР·РµСЂРІРЅСѓСЋ РєРѕРїРёСЋ (СЃРµРєСЂРµС‚РЅС‹С… РґР°РЅРЅС‹С… Р·РґРµСЃСЊ РЅРµС‚)
 BACKUP DATABASE MySecretDB TO DISK = 'c:\temp\MySecretDB.bak' WITH INIT
 go
 USE MySecretDB
 go 
--- Создаем таблицу и заполняем ее секретными данными
--- Делаем это в транзакции с меткой T1
+-- РЎРѕР·РґР°РµРј С‚Р°Р±Р»РёС†Сѓ Рё Р·Р°РїРѕР»РЅСЏРµРј РµРµ СЃРµРєСЂРµС‚РЅС‹РјРё РґР°РЅРЅС‹РјРё
+-- Р”РµР»Р°РµРј СЌС‚Рѕ РІ С‚СЂР°РЅР·Р°РєС†РёРё СЃ РјРµС‚РєРѕР№ T1
 BEGIN TRAN T1 WITH MARK
 
 CREATE TABLE dbo.MySecretTable (Data varchar(200) not null)
@@ -56,13 +56,13 @@ INSERT dbo.MySecretTable (Data) VALUES ('It is my secret')
 
 COMMIT
 go 
--- Шифруем базу данных
+-- РЁРёС„СЂСѓРµРј Р±Р°Р·Сѓ РґР°РЅРЅС‹С…
 CREATE DATABASE ENCRYPTION KEY WITH ALGORITHM = AES_256
 ENCRYPTION BY SERVER CERTIFICATE DEK_EncCert
 go
 ALTER DATABASE MySecretDB SET ENCRYPTION ON
 go 
---Проверяем, что база данных зашифрована:
+--РџСЂРѕРІРµСЂСЏРµРј, С‡С‚Рѕ Р±Р°Р·Р° РґР°РЅРЅС‹С… Р·Р°С€РёС„СЂРѕРІР°РЅР°:
 SELECT DB_NAME(database_id), encryption_state FROM 
 sys.dm_database_encryption_keys
 

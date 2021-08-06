@@ -1,26 +1,26 @@
 --1--
 create proc lab6_proc1 as
-select Tovar.Nazva as [Назва товару], tovar.Price*zakaz_tovar.Kilkist as [Вартість], sotrudnik.Fname as [Прізвище], sotrudnik.Name as [Ім'я] 
+select Tovar.Nazva as [РќР°Р·РІР° С‚РѕРІР°СЂСѓ], tovar.Price*zakaz_tovar.Kilkist as [Р’Р°СЂС‚С–СЃС‚СЊ], sotrudnik.Fname as [РџСЂС–Р·РІРёС‰Рµ], sotrudnik.Name as [Р†Рј'СЏ] 
 	from sotrudnik inner join zakaz on sotrudnik.id_sotrud=zakaz.id_sotrud 
 	inner join zakaz_tovar on zakaz.id_zakaz=zakaz_tovar.id_zakaz  
 	INNER JOIN tovar on tovar.id_tovar=zakaz_tovar.id_tovar
-where sotrudnik.Name='Олексій'
+where sotrudnik.Name='РћР»РµРєСЃС–Р№'
 --2--
 create proc lab6_proc2 as
 update tovar set Price=Price*0.9
 	where id_postav=(select postachalnik.id_postach 
 					from postachalnik 
-						where postachalnik.Nazva='ТОВ "Арей"')
+						where postachalnik.Nazva='РўРћР’ "РђСЂРµР№"')
 --3--
 create proc lab6_proc3 @k varchar(20)
 as
-select tovar.Nazva as [Назва товару], tovar.Price*zakaz_tovar.Kilkist as [Вартість], klient.Nazva as [Клієнт]
+select tovar.Nazva as [РќР°Р·РІР° С‚РѕРІР°СЂСѓ], tovar.Price*zakaz_tovar.Kilkist as [Р’Р°СЂС‚С–СЃС‚СЊ], klient.Nazva as [РљР»С–С”РЅС‚]
 	from klient inner join ((tovar inner join zakaz_tovar 
 on tovar.id_tovar=zakaz_tovar.id_tovar) inner join zakaz 
 on zakaz.id_zakaz=zakaz_tovar.id_zakaz) 
 on klient.id_klient=zakaz.id_klient 
 where klient.Nazva=@k
-exec lab6_proc3 'ПП Апин В.С.'
+exec lab6_proc3 'РџРџ РђРїРёРЅ Р’.РЎ.'
 --4--
 create proc lab6_proc4
 @t int, @p float 
@@ -30,7 +30,7 @@ where NaSklade <= @t
 exec lab6_proc4 15, 0.25;
 --5--
 create proc lab6_proc5
-@t varchar(20)='Молоко', @p float = 0.1
+@t varchar(20)='РњРѕР»РѕРєРѕ', @p float = 0.1
 as
 update tovar set Price=Price*(1 -@p)
 where Nazva=@t
@@ -65,11 +65,11 @@ inner join tovar on zakaz_tovar.id_tovar = tovar.id_tovar
 where zakaz.id_klient in (select id_klient from klient
 where city = @pr)
 declare @f1 varchar(20)
-exec lab6_proc7 @f1 output, @n = 'ТОВ "Арей"'
+exec lab6_proc7 @f1 output, @n = 'РўРћР’ "РђСЂРµР№"'
 Print @f1
 
 
---Тригери--
+--РўСЂРёРіРµСЂРё--
 --1--
 create trigger lab6_oneRow
 on zakaz_tovar for insert
@@ -81,7 +81,7 @@ select  * from inserted
 		where inserted.Kilkist <= all(select tovar.NaSklade 
 		from tovar, zakaz_tovar where tovar.id_tovar= zakaz_tovar.id_tovar))
 begin
-rollback tran print 'Нема товару'
+rollback tran print 'РќРµРјР° С‚РѕРІР°СЂСѓ'
 end
 end
 
@@ -102,11 +102,11 @@ where - inserted.Kilkist <= all(select tovar.NaSklade
 from tovar, zakaz_tovar 
 where tovar.id_tovar= zakaz_tovar. id_tovar))
 begin
-rollback tran print 'Нестача товару'
+rollback tran print 'РќРµСЃС‚Р°С‡Р° С‚РѕРІР°СЂСѓ'
 end
 if not exists ( select i.id_tovar, i.Kilkist, 2 from tovar N, inserted i 
 where N. id_tovar =i.id_tovar)
-print 'Товар не продається'
+print 'РўРѕРІР°СЂ РЅРµ РїСЂРѕРґР°С”С‚СЊСЃСЏ'
 else begin
 select @y=i.id_tovar, @x=i.Kilkist 
 from zakaz_tovar N, inserted i 

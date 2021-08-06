@@ -1,6 +1,6 @@
 USE kontrolna_1
 
---створена таблиця - постачальник
+--СЃС‚РІРѕСЂРµРЅР° С‚Р°Р±Р»РёС†СЏ - РїРѕСЃС‚Р°С‡Р°Р»СЊРЅРёРє
 CREATE TABLE [postach]
 (
  [id_postach]    int NOT NULL IDENTITY(1,1) ,
@@ -14,7 +14,7 @@ CREATE TABLE [postach]
  CONSTRAINT [PK_postach] PRIMARY KEY CLUSTERED ([id_postach] ASC)
 );
 
---створена таблиця сировина
+--СЃС‚РІРѕСЂРµРЅР° С‚Р°Р±Р»РёС†СЏ СЃРёСЂРѕРІРёРЅР°
 CREATE TABLE [surovina]
 (
  [id_surovinu]    int NOT NULL IDENTITY(1,1) ,
@@ -25,7 +25,7 @@ CREATE TABLE [surovina]
  CONSTRAINT [PK_surovina] PRIMARY KEY CLUSTERED ([id_surovinu] ASC)
 );
 
---створена таблиця видаткова накладна
+--СЃС‚РІРѕСЂРµРЅР° С‚Р°Р±Р»РёС†СЏ РІРёРґР°С‚РєРѕРІР° РЅР°РєР»Р°РґРЅР°
 CREATE TABLE [vud_nakl]
 (
  [id_vud_nakl] int NOT NULL IDENTITY(1,1) ,
@@ -35,11 +35,11 @@ CREATE TABLE [vud_nakl]
  [id_surovinu] int  ,
 
 
- CONSTRAINT [PK_Видаткова накладна] PRIMARY KEY CLUSTERED ([id_vud_nakl] ASC),
+ CONSTRAINT [PK_Р’РёРґР°С‚РєРѕРІР° РЅР°РєР»Р°РґРЅР°] PRIMARY KEY CLUSTERED ([id_vud_nakl] ASC),
  CONSTRAINT [FK_96] FOREIGN KEY ([id_surovinu])  REFERENCES [surovina]([id_surovinu])
 );
 
---створена таблиця договори
+--СЃС‚РІРѕСЂРµРЅР° С‚Р°Р±Р»РёС†СЏ РґРѕРіРѕРІРѕСЂРё
 CREATE TABLE [dogovoru]
 (
  [id_dogovoru] int NOT NULL IDENTITY(1,1),
@@ -49,12 +49,12 @@ CREATE TABLE [dogovoru]
  [id_surovinu] int ,
 
 
- CONSTRAINT [PK_Постачальники] PRIMARY KEY CLUSTERED ([id_dogovoru] ASC),
+ CONSTRAINT [PK_РџРѕСЃС‚Р°С‡Р°Р»СЊРЅРёРєРё] PRIMARY KEY CLUSTERED ([id_dogovoru] ASC),
  CONSTRAINT [FK_118] FOREIGN KEY ([id_surovinu])  REFERENCES [surovina]([id_surovinu]),
  CONSTRAINT [FK_45] FOREIGN KEY ([id_postach])  REFERENCES [postach]([id_postach])
 );
 
---створена таблиця прибуткові накладні
+--СЃС‚РІРѕСЂРµРЅР° С‚Р°Р±Р»РёС†СЏ РїСЂРёР±СѓС‚РєРѕРІС– РЅР°РєР»Р°РґРЅС–
 CREATE TABLE [prib_nakl]
 (
  [id_prib_nakl] int NOT NULL IDENTITY(1,1),
@@ -65,13 +65,13 @@ CREATE TABLE [prib_nakl]
  [id_surovinu]  int ,
 
 
- CONSTRAINT [PK_Прибуткові накладні] PRIMARY KEY CLUSTERED ([id_prib_nakl] ASC),
+ CONSTRAINT [PK_РџСЂРёР±СѓС‚РєРѕРІС– РЅР°РєР»Р°РґРЅС–] PRIMARY KEY CLUSTERED ([id_prib_nakl] ASC),
  CONSTRAINT [FK_115] FOREIGN KEY ([id_surovinu])  REFERENCES [surovina]([id_surovinu]),
  CONSTRAINT [FK_42] FOREIGN KEY ([id_postach])  REFERENCES [postach]([id_postach]),
  CONSTRAINT [FK_52] FOREIGN KEY ([id_dogovoru])  REFERENCES [dogovoru]([id_dogovoru])
 );
 
---вношу дані до таблиці
+--РІРЅРѕС€Сѓ РґР°РЅС– РґРѕ С‚Р°Р±Р»РёС†С–
 INSERT [postach] ([nazva_postach], [ur_add], [R_R], [tel], [contact])
 VALUES ('pos1', 'ur_add1', '1111', 3081, '1111'),
 ('pos2', 'ur_add2', '1112', 3082, '1112'),
@@ -116,7 +116,7 @@ VALUES (1, 1, getdate(), '20', 1),
 (5, 6, getdate(), '20', 1),
 (6, 7, getdate(), '20', 4);
 
---роблю тестові запити
+--СЂРѕР±Р»СЋ С‚РµСЃС‚РѕРІС– Р·Р°РїРёС‚Рё
 SELECT * FROM [postach] --1
 SELECT * FROM [surovina] --2
 SELECT * FROM [vud_nakl] --3
@@ -133,18 +133,18 @@ WHERE [nazva_postach] LIKE '%3%';
 SELECT * FROM [vud_nakl] --10
 WHERE [kilkist] LIKE '%5%';
 
---процедуру, що визначає кількість рядків 
---в таблицях БД і заносить результат в нову таблицю. 
+--РїСЂРѕС†РµРґСѓСЂСѓ, С‰Рѕ РІРёР·РЅР°С‡Р°С” РєС–Р»СЊРєС–СЃС‚СЊ СЂСЏРґРєС–РІ 
+--РІ С‚Р°Р±Р»РёС†СЏС… Р‘Р” С– Р·Р°РЅРѕСЃРёС‚СЊ СЂРµР·СѓР»СЊС‚Р°С‚ РІ РЅРѕРІСѓ С‚Р°Р±Р»РёС†СЋ. 
 USE kontrolna_1
 GO
---створив табл куди будуть записуватись дані
+--СЃС‚РІРѕСЂРёРІ С‚Р°Р±Р» РєСѓРґРё Р±СѓРґСѓС‚СЊ Р·Р°РїРёСЃСѓРІР°С‚РёСЃСЊ РґР°РЅС–
 CREATE TABLE [proc_1]
 (
 [lines] int
 );
 USE kontrolna_1
 GO
---сама процедура
+--СЃР°РјР° РїСЂРѕС†РµРґСѓСЂР°
 create procedure procedure_1
     @p1 int
 as
@@ -164,18 +164,18 @@ go
 exec procedure_1 @p1 =1
 SELECT * FROM [proc_1]
 ----------------------------------------------------------------------------------------------------
---процедуру, що визначає кількість полів 
---в таблицях БД і заносить результат в но-ву таблицю
+--РїСЂРѕС†РµРґСѓСЂСѓ, С‰Рѕ РІРёР·РЅР°С‡Р°С” РєС–Р»СЊРєС–СЃС‚СЊ РїРѕР»С–РІ 
+--РІ С‚Р°Р±Р»РёС†СЏС… Р‘Р” С– Р·Р°РЅРѕСЃРёС‚СЊ СЂРµР·СѓР»СЊС‚Р°С‚ РІ РЅРѕ-РІСѓ С‚Р°Р±Р»РёС†СЋ
 USE kontrolna_1
 GO
---створив табл куди будуть записуватись дані
+--СЃС‚РІРѕСЂРёРІ С‚Р°Р±Р» РєСѓРґРё Р±СѓРґСѓС‚СЊ Р·Р°РїРёСЃСѓРІР°С‚РёСЃСЊ РґР°РЅС–
 CREATE TABLE [proc_2]
 (
 [fields] int
 );
 USE kontrolna_1
 GO
---сама процедура
+--СЃР°РјР° РїСЂРѕС†РµРґСѓСЂР°
 create procedure procedure_2
     @p1 int
 as
@@ -197,8 +197,8 @@ GO
 exec procedure_2 @p1 =1
 SELECT * FROM [proc_2]
 ------------------------------------------------------------------------------------------------------
---процедуру, що визначає для кожного поля 
---таблиці, кількість значень, що не по-вторюються
+--РїСЂРѕС†РµРґСѓСЂСѓ, С‰Рѕ РІРёР·РЅР°С‡Р°С” РґР»СЏ РєРѕР¶РЅРѕРіРѕ РїРѕР»СЏ 
+--С‚Р°Р±Р»РёС†С–, РєС–Р»СЊРєС–СЃС‚СЊ Р·РЅР°С‡РµРЅСЊ, С‰Рѕ РЅРµ РїРѕ-РІС‚РѕСЂСЋСЋС‚СЊСЃСЏ
 USE kontrolna_1
 GO
 create procedure procedure_3
@@ -241,8 +241,8 @@ BEGIN
 END
 go
 exec procedure_3
---a.Для операції оновлення таблиці
---	Тригер, що оновлює одночасно дані в двох таблицях
+--a.Р”Р»СЏ РѕРїРµСЂР°С†С–С— РѕРЅРѕРІР»РµРЅРЅСЏ С‚Р°Р±Р»РёС†С–
+--	РўСЂРёРіРµСЂ, С‰Рѕ РѕРЅРѕРІР»СЋС” РѕРґРЅРѕС‡Р°СЃРЅРѕ РґР°РЅС– РІ РґРІРѕС… С‚Р°Р±Р»РёС†СЏС…
 
 create trigger Ins_dogovoru
 on dogovoru for insert
@@ -279,8 +279,8 @@ select * from prib_nakl
 --DROP TRIGGER Del_dogovotu
 --DROP TRIGGER Upd_dogovoru
 
---	Тригер, що при онвленні відхиляє зміни якощо 
---	є зв’язані дані в іншій таблиці
+--	РўСЂРёРіРµСЂ, С‰Рѕ РїСЂРё РѕРЅРІР»РµРЅРЅС– РІС–РґС…РёР»СЏС” Р·РјС–РЅРё СЏРєРѕС‰Рѕ 
+--	С” Р·РІвЂ™СЏР·Р°РЅС– РґР°РЅС– РІ С–РЅС€С–Р№ С‚Р°Р±Р»РёС†С–
 
 CREATE TRIGGER trigger1
     ON dogovoru INSTEAD OF UPDATE      
@@ -300,8 +300,8 @@ update dogovoru set kilkist = '10'
 select * from dogovoru
 select * from prib_nakl
 
---b.Для операції знищення даних з таблиці:
---	Тригер, що знищує зв’язані дані одночасно в двох таблицях
+--b.Р”Р»СЏ РѕРїРµСЂР°С†С–С— Р·РЅРёС‰РµРЅРЅСЏ РґР°РЅРёС… Р· С‚Р°Р±Р»РёС†С–:
+--	РўСЂРёРіРµСЂ, С‰Рѕ Р·РЅРёС‰СѓС” Р·РІвЂ™СЏР·Р°РЅС– РґР°РЅС– РѕРґРЅРѕС‡Р°СЃРЅРѕ РІ РґРІРѕС… С‚Р°Р±Р»РёС†СЏС…
 CREATE TRIGGER del_in_tables
 ON postach INSTEAD OF DELETE
 AS
@@ -312,8 +312,8 @@ DELETE FROM dogovoru WHERE id_postach = @id;
 DELETE FROM postach WHERE id_postach = @id;
 print 'yes';
 END
---	Тригер, що при знищенні перевіряє наявність в іншій таблиці 
---	даних, що відпо-відають заданій умові і відхиляє знищення даних
+--	РўСЂРёРіРµСЂ, С‰Рѕ РїСЂРё Р·РЅРёС‰РµРЅРЅС– РїРµСЂРµРІС–СЂСЏС” РЅР°СЏРІРЅС–СЃС‚СЊ РІ С–РЅС€С–Р№ С‚Р°Р±Р»РёС†С– 
+--	РґР°РЅРёС…, С‰Рѕ РІС–РґРїРѕ-РІС–РґР°СЋС‚СЊ Р·Р°РґР°РЅС–Р№ СѓРјРѕРІС– С– РІС–РґС…РёР»СЏС” Р·РЅРёС‰РµРЅРЅСЏ РґР°РЅРёС…
 
 CREATE TRIGGER tablename_delete 
 ON dogovoru FOR DELETE
@@ -322,7 +322,7 @@ AS
 
     IF EXISTS (SELECT * FROM vud_nakl WHERE kilkist > 1)
     BEGIN
-        RAISERROR ('ВИДАЛЕННЯ ЗАБОРОНЕНЕ !!!', 0, 1) WITH NOWAIT
+        RAISERROR ('Р’РР”РђР›Р•РќРќРЇ Р—РђР‘РћР РћРќР•РќР• !!!', 0, 1) WITH NOWAIT
         ROLLBACK
     END
 
@@ -339,12 +339,12 @@ delete dogovoru
 select * from dogovoru
 select * from vud_nakl
 
---c.Для операції вставки даних:
---	Створти тригер, що реалізує вставку даних і зміну кількості 
---	рядків в таблиці (дані про кількість рядків в таблицях 
---	містяться в окремій таблиці).
+--c.Р”Р»СЏ РѕРїРµСЂР°С†С–С— РІСЃС‚Р°РІРєРё РґР°РЅРёС…:
+--	РЎС‚РІРѕСЂС‚Рё С‚СЂРёРіРµСЂ, С‰Рѕ СЂРµР°Р»С–Р·СѓС” РІСЃС‚Р°РІРєСѓ РґР°РЅРёС… С– Р·РјС–РЅСѓ РєС–Р»СЊРєРѕСЃС‚С– 
+--	СЂСЏРґРєС–РІ РІ С‚Р°Р±Р»РёС†С– (РґР°РЅС– РїСЂРѕ РєС–Р»СЊРєС–СЃС‚СЊ СЂСЏРґРєС–РІ РІ С‚Р°Р±Р»РёС†СЏС… 
+--	РјС–СЃС‚СЏС‚СЊСЃСЏ РІ РѕРєСЂРµРјС–Р№ С‚Р°Р±Р»РёС†С–).
 
---створив табл куди будуть записуватись дані
+--СЃС‚РІРѕСЂРёРІ С‚Р°Р±Р» РєСѓРґРё Р±СѓРґСѓС‚СЊ Р·Р°РїРёСЃСѓРІР°С‚РёСЃСЊ РґР°РЅС–
 CREATE TABLE [table_1]
 (
  [id_dogovoru] int NOT NULL IDENTITY(1,1),
@@ -354,7 +354,7 @@ CREATE TABLE [table_1]
  [id_surovinu] int ,
 
 
- CONSTRAINT [PK_Постачальники] PRIMARY KEY CLUSTERED ([id_dogovoru] ASC),
+ CONSTRAINT [PK_РџРѕСЃС‚Р°С‡Р°Р»СЊРЅРёРєРё] PRIMARY KEY CLUSTERED ([id_dogovoru] ASC),
 );
 ------------------------------------------------------------
 SELECT * FROM table_1

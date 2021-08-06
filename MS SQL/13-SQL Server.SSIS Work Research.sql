@@ -1,29 +1,29 @@
--- первая БД выступающая в роли источника данных
+-- РїРµСЂРІР°СЏ Р‘Р” РІС‹СЃС‚СѓРїР°СЋС‰Р°СЏ РІ СЂРѕР»Рё РёСЃС‚РѕС‡РЅРёРєР° РґР°РЅРЅС‹С…
 CREATE DATABASE DemoSSIS_SourceA
 GO
 
 ALTER DATABASE DemoSSIS_SourceA SET RECOVERY SIMPLE 
 GO
 
--- вторая БД выступающая в роли источника данных
+-- РІС‚РѕСЂР°СЏ Р‘Р” РІС‹СЃС‚СѓРїР°СЋС‰Р°СЏ РІ СЂРѕР»Рё РёСЃС‚РѕС‡РЅРёРєР° РґР°РЅРЅС‹С…
 CREATE DATABASE DemoSSIS_SourceB
 GO
 
 ALTER DATABASE DemoSSIS_SourceB SET RECOVERY SIMPLE 
 GO
 
--- БД выступающая в роли получателя данных
+-- Р‘Р” РІС‹СЃС‚СѓРїР°СЋС‰Р°СЏ РІ СЂРѕР»Рё РїРѕР»СѓС‡Р°С‚РµР»СЏ РґР°РЅРЅС‹С…
 CREATE DATABASE DemoSSIS_Target
 GO
 
 ALTER DATABASE DemoSSIS_Target SET RECOVERY SIMPLE 
 GO
 ------------------------------------------------------
---В базах источниках создадим тестовые таблицы и наполним их тестовыми данными:
+--Р’ Р±Р°Р·Р°С… РёСЃС‚РѕС‡РЅРёРєР°С… СЃРѕР·РґР°РґРёРј С‚РµСЃС‚РѕРІС‹Рµ С‚Р°Р±Р»РёС†С‹ Рё РЅР°РїРѕР»РЅРёРј РёС… С‚РµСЃС‚РѕРІС‹РјРё РґР°РЅРЅС‹РјРё:
 USE DemoSSIS_SourceA
 GO
 
--- продукты из источника A
+-- РїСЂРѕРґСѓРєС‚С‹ РёР· РёСЃС‚РѕС‡РЅРёРєР° A
 CREATE TABLE Products(
   ID int NOT NULL IDENTITY,
   Title nvarchar(50) NOT NULL,
@@ -32,15 +32,15 @@ CONSTRAINT PK_Products PRIMARY KEY(ID)
 )
 GO
 
--- наполняем таблицу тестовыми данными
+-- РЅР°РїРѕР»РЅСЏРµРј С‚Р°Р±Р»РёС†Сѓ С‚РµСЃС‚РѕРІС‹РјРё РґР°РЅРЅС‹РјРё
 SET IDENTITY_INSERT Products ON
 
 INSERT Products(ID,Title,Price)VALUES
-(1,N'Клей',20),
-(2,N'Корректор',NULL),
-(3,N'Скотч',100),
-(4,N'Стикеры',80),
-(5,N'Скрепки',25)
+(1,N'РљР»РµР№',20),
+(2,N'РљРѕСЂСЂРµРєС‚РѕСЂ',NULL),
+(3,N'РЎРєРѕС‚С‡',100),
+(4,N'РЎС‚РёРєРµСЂС‹',80),
+(5,N'РЎРєСЂРµРїРєРё',25)
 
 SET IDENTITY_INSERT Products OFF
 GO
@@ -48,7 +48,7 @@ GO
 USE DemoSSIS_SourceB
 GO
 
--- продукты из источника B
+-- РїСЂРѕРґСѓРєС‚С‹ РёР· РёСЃС‚РѕС‡РЅРёРєР° B
 CREATE TABLE Products(
   ID int NOT NULL IDENTITY,
   Title nvarchar(50) NOT NULL,
@@ -57,29 +57,29 @@ CONSTRAINT PK_Products PRIMARY KEY(ID)
 )
 GO
 
--- наполняем таблицу тестовыми данными
+-- РЅР°РїРѕР»РЅСЏРµРј С‚Р°Р±Р»РёС†Сѓ С‚РµСЃС‚РѕРІС‹РјРё РґР°РЅРЅС‹РјРё
 SET IDENTITY_INSERT Products ON
 
 INSERT Products(ID,Title,Price)VALUES
-(1,N'Ножницы',200),
-(2,N'Нож канцелярский',70),
-(3,N'Дырокол',220),
-(4,N'Степлер',150),
-(5,N'Шариковая ручка',15)
+(1,N'РќРѕР¶РЅРёС†С‹',200),
+(2,N'РќРѕР¶ РєР°РЅС†РµР»СЏСЂСЃРєРёР№',70),
+(3,N'Р”С‹СЂРѕРєРѕР»',220),
+(4,N'РЎС‚РµРїР»РµСЂ',150),
+(5,N'РЁР°СЂРёРєРѕРІР°СЏ СЂСѓС‡РєР°',15)
 
 SET IDENTITY_INSERT Products OFF
 GO
 ----------------------------------------------------------
---Создадим таблицу в принимающей базе:
+--РЎРѕР·РґР°РґРёРј С‚Р°Р±Р»РёС†Сѓ РІ РїСЂРёРЅРёРјР°СЋС‰РµР№ Р±Р°Р·Рµ:
 USE DemoSSIS_Target
 GO
--- принимающая таблица
+-- РїСЂРёРЅРёРјР°СЋС‰Р°СЏ С‚Р°Р±Р»РёС†Р°
 CREATE TABLE Products(
   ID int NOT NULL IDENTITY,
   Title nvarchar(50) NOT NULL,
   Price money,
-  SourceID char(1) NOT NULL, -- используется для идентификации источника
-  SourceProductID int NOT NULL, -- ID в источнике
+  SourceID char(1) NOT NULL, -- РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ РёРґРµРЅС‚РёС„РёРєР°С†РёРё РёСЃС‚РѕС‡РЅРёРєР°
+  SourceProductID int NOT NULL, -- ID РІ РёСЃС‚РѕС‡РЅРёРєРµ
 CONSTRAINT PK_Products PRIMARY KEY(ID),
 CONSTRAINT UK_Products UNIQUE(SourceID,SourceProductID),
 CONSTRAINT CK_Products_SourceID CHECK(SourceID IN('A','B'))
