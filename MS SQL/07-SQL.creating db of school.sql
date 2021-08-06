@@ -1,4 +1,4 @@
-Create database db_school
+create database db_school
 
 use db_school       
 
