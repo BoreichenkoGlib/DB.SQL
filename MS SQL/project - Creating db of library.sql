@@ -2,6 +2,7 @@
 create database db_library
 
 use db_library
+default-character-set=utf8
 
 --створення таблиці "факультети"
 create table Faculties(
