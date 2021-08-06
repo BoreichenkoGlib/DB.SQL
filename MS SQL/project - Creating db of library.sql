@@ -1,28 +1,22 @@
---створення бази даних бібліотеки
 create database db_library
 
 use db_library
-default-character-set=utf8
 
---створення таблиці "факультети"
 create table Faculties(
 id_facult int not null primary key,
 name_facult varchar(50) not null,
 )
 
---створення таблиці "спеціальності"
 create table Specialities(
 id_spec int not null primary key,
 name_spec varchar(50) not null,
 )
 
---створення таблиці "співробітники бібліотеки"
 create table library_staff(
 id_staff int not null primary key,
 name_staff varchar(50) not null,
 )
 
---створення таблиці "книги"
 create table books(
 id_book int not null primary key,
 name_book varchar(50) not null,
@@ -31,20 +25,17 @@ year_publication date,
 kilkist_of_book int not null,
 )
 
---створення таблиці "кафедри"
 create table caffedra(
 id_caff int not null primary key,
 name_caff varchar(50) not null,
 )
 
- --створення таблиці "групи"
 create table Groups(
 id_group int not null primary key,
 group_name varchar(50),
 id_faculty int foreign key references Faculties(id_facult),
 )
 
---створення таблиці "студенти"
 create table students (
 id_stud int not null primary key,
 stud_name varchar(50) not null,
@@ -55,14 +46,12 @@ id_group int foreign key references Groups(id_group),
 stud_cours int not null,
 )
 
---створення таблиці "викладачі"
 create table proffesors(
 id_prof int not null primary key,
 prof_name varchar(50),
 id_caff int foreign key references caffedra(id_caff),
 )
 
---створення таблиці "каталог книг"
 create table catalog_book_distribution(
 id_giving int not null primary key,
 id_book int foreign key references books(id_book),
@@ -74,7 +63,6 @@ data_give date,
 data_return date,
 )
 
---вводимо тестові записи
 insert into Faculties (id_facult, name_facult) values 
 ('1', 'Факультет компютерно-інтегрованих технологій'),
 ('2', 'Факультет інформаційно-компютерних технологій'),
